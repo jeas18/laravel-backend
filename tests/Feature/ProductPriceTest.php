@@ -49,6 +49,16 @@ class ProductPriceTest extends TestCase
             ->assertJsonPath('data.1.currency.name', 'COP');
     }
 
+    public function test_listing_includes_the_product_with_its_base_currency(): void
+    {
+        $this->getJson("/api/v1/products/{$this->product->id}/prices")
+            ->assertOk()
+            ->assertJsonPath('product.id', $this->product->id)
+            ->assertJsonPath('product.name', $this->product->name)
+            ->assertJsonPath('product.price', '100.00')
+            ->assertJsonPath('product.currency.name', 'USD');
+    }
+
     public function test_registers_a_price_given_manually(): void
     {
         $this->postJson("/api/v1/products/{$this->product->id}/prices", ['currency_id' => $this->eur->id, 'price' => 85.5])
