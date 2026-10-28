@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductPriceRequest;
 use App\Http\Resources\ProductPriceResource;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Services\ProductPriceService;
 use Illuminate\Http\JsonResponse;
@@ -17,9 +18,8 @@ class ProductPriceController extends Controller
 
     public function index(Product $product): AnonymousResourceCollection
     {
-        return ProductPriceResource::collection(
-            $this->productPriceService->listFor($product)
-        );
+        return ProductPriceResource::collection($this->productPriceService->listFor($product))
+            ->additional(['product' => ProductResource::make($product->load('currency'))]);
     }
 
     public function store(StoreProductPriceRequest $request, Product $product): JsonResponse
