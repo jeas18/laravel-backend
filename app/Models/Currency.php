@@ -15,8 +15,6 @@ class Currency extends Model
     use HasFactory;
 
     /**
-     * Get the attributes that should be cast.
-     *
      * @return array<string, string>
      */
     protected function casts(): array
@@ -27,8 +25,6 @@ class Currency extends Model
     }
 
     /**
-     * Products whose base price is expressed in this currency.
-     *
      * @return HasMany<Product, $this>
      */
     public function products(): HasMany
@@ -37,8 +33,6 @@ class Currency extends Model
     }
 
     /**
-     * Alternative product prices registered in this currency.
-     *
      * @return HasMany<ProductPrice, $this>
      */
     public function productPrices(): HasMany

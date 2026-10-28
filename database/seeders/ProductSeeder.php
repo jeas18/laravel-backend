@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\DTOs\ProductPriceData;
 use App\Models\Currency;
 use App\Models\Product;
+use App\Services\ProductPriceService;
 use Illuminate\Database\Seeder;
 
 class ProductSeeder extends Seeder
@@ -24,15 +26,18 @@ class ProductSeeder extends Seeder
         ['Lámpara LED de escritorio', 'Lámpara LED regulable con carga inalámbrica', 42.00, 'GBP', 8.40, 16.00],
     ];
 
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    private const ALTERNATIVE_PRICES = [
+        'Laptop Pro 14' => ['EUR', 'COP'],
+        'Auriculares ANC' => ['USD', 'MXN'],
+        'Disco SSD 1 TB' => ['USD'],
+    ];
+
+    public function run(ProductPriceService $prices): void
     {
         $currencies = Currency::pluck('id', 'name');
 
         foreach (self::PRODUCTS as [$name, $description, $price, $currency, $taxCost, $manufacturingCost]) {
-            Product::updateOrCreate(
+            $product = Product::updateOrCreate(
                 ['name' => $name],
                 [
                     'description' => $description,
@@ -42,6 +47,12 @@ class ProductSeeder extends Seeder
                     'manufacturing_cost' => $manufacturingCost,
                 ],
             );
+
+            foreach (self::ALTERNATIVE_PRICES[$name] ?? [] as $alternative) {
+                if (! $product->prices()->where('currency_id', $currencies[$alternative])->exists()) {
+                    $prices->register($product, new ProductPriceData($currencies[$alternative]));
+                }
+            }
         }
     }
 }
