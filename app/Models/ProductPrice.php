@@ -15,8 +15,6 @@ class ProductPrice extends Model
     use HasFactory;
 
     /**
-     * Get the attributes that should be cast.
-     *
      * @return array<string, string>
      */
     protected function casts(): array
@@ -35,8 +33,6 @@ class ProductPrice extends Model
     }
 
     /**
-     * Currency in which this price is expressed.
-     *
      * @return BelongsTo<Currency, $this>
      */
     public function currency(): BelongsTo

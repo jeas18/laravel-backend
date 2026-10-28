@@ -18,9 +18,6 @@ class CurrencySeeder extends Seeder
         ['name' => 'COP', 'symbol' => '$', 'exchange_rate' => 4100],
     ];
 
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         foreach (self::CURRENCIES as $currency) {

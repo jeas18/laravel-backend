@@ -11,8 +11,6 @@ class AuthService
     private const TOKEN_NAME = 'api';
 
     /**
-     * Create a new user and issue an API token for it.
-     *
      * @return array{user: User, token: string}
      */
     public function register(string $name, string $email, string $password): array
@@ -27,8 +25,6 @@ class AuthService
     }
 
     /**
-     * Validate the credentials and issue an API token.
-     *
      * @return array{user: User, token: string}
      *
      * @throws AuthenticationException
@@ -44,9 +40,6 @@ class AuthService
         return ['user' => $user, 'token' => $this->issueToken($user)];
     }
 
-    /**
-     * Revoke the token used in the current request.
-     */
     public function logout(User $user): void
     {
         $user->currentAccessToken()->delete();

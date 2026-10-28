@@ -19,8 +19,6 @@ class Product extends Model
     use HasFactory, SoftDeletes;
 
     /**
-     * Get the attributes that should be cast.
-     *
      * @return array<string, string>
      */
     protected function casts(): array
@@ -33,8 +31,6 @@ class Product extends Model
     }
 
     /**
-     * Base currency in which the product price is expressed.
-     *
      * @return BelongsTo<Currency, $this>
      */
     public function currency(): BelongsTo
@@ -43,8 +39,6 @@ class Product extends Model
     }
 
     /**
-     * Prices registered for the product in other currencies.
-     *
      * @return HasMany<ProductPrice, $this>
      */
     public function prices(): HasMany
@@ -53,8 +47,6 @@ class Product extends Model
     }
 
     /**
-     * Filter products whose name contains the given term.
-     *
      * @param  Builder<self>  $query
      */
     #[Scope]
