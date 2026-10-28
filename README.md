@@ -191,7 +191,7 @@ currencies (1) ──< (N) product_prices    divisa de cada precio
 
 - Autenticación por token con Sanctum; el logout revoca solo el token actual.
 - **Rate limiting:** 5 intentos por minuto por correo e IP en `login`/`register`; 60 peticiones por minuto por usuario en el resto.
-- Mismo mensaje para correo inexistente y contraseña incorrecta, para evitar la enumeración de usuarios.
+- El login responde con el mismo mensaje para correo inexistente y contraseña incorrecta.
 - Validación estricta de todas las entradas (`per_page` limitado a 100).
 - Asignación masiva restringida con `#[Fillable]`; las respuestas pasan por Resources y nunca exponen la contraseña.
 - Los 404 no revelan nombres internos de clases.
