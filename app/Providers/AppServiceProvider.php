@@ -26,13 +26,12 @@ class AppServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
     }
 
-    /**
-     * Brute-force protection for auth endpoints: 5 attempts per minute
-     * for each email + IP combination.
-     */
     private function configureRateLimiting(): void
     {
         RateLimiter::for('auth', fn (Request $request) => Limit::perMinute(5)
             ->by(Str::lower((string) $request->input('email')).'|'.$request->ip()));
+
+        RateLimiter::for('api', fn (Request $request) => Limit::perMinute(60)
+            ->by($request->user()?->id ?: $request->ip()));
     }
 }
